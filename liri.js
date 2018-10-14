@@ -10,10 +10,32 @@ let keys = require("./keys.js");
 let Spotify = require("node-spotify-api");
 let spotify = new Spotify(keys.spotify);
 
-// console.log(spotify);
-
 let command = process.argv[2];
 let searchItem = process.argv[3];
+
+
+function displaySong(song) {
+    spotify.search({type: "track", query: song, limit: 1 }, function(err, data){
+        if (err) throw err;
+        if (!err) {
+            
+            let songInfo = data.tracks.items[0];
+            // console.log(songInfo);
+
+            console.log("\nSong Information:")
+            console.log("\nTitle: " + songInfo.name);
+            console.log("Artist: " + songInfo.artists[0].name)
+            console.log("Album: " + songInfo.album.name);
+
+            if (songInfo.preview_url !== null) {
+                console.log("Preview url: " + songInfo.preview_url);
+            } else if (songInfo.preview_url === null) {
+                console.log("preview not available");
+            }
+        }
+    })
+};
+
 
 function run(){
     if (command === "concert-this") {
@@ -45,19 +67,11 @@ function run(){
     } else if (command === "spotify-this-song") {
         let song = searchItem;
 
-        spotify.search({type: "track", query: song, limit: 1 }, function(err, data){
-            if (err) throw err;
-            if (!err) {
-                let body = JSON.stringify(data, null, 2);
-                let album = JSON.parse(body).tracks.items
-                // console.log(album);
-                let albumString = JSON.stringify(album, null, 2);
-                // console.log(albumString);
-                console.log(JSON.parse(albumString).album)
-                // console.log(JSON.parse(data))
-
-            }
-        })
+        if (song) {
+            displaySong(song);
+        } else {
+            displaySong("The Sign Ace of Base");
+        }
 
     } else if (command === "movie-this") {
         let movie = searchItem;
