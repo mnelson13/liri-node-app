@@ -10,31 +10,8 @@ let keys = require("./keys.js");
 let Spotify = require("node-spotify-api");
 let spotify = new Spotify(keys.spotify);
 
-let command = process.argv[2];
+let command = (process.argv[2]).toLowerCase();
 let searchItem = process.argv[3];
-
-
-function displaySong(song) {
-    spotify.search({type: "track", query: song, limit: 1 }, function(err, data){
-        if (err) throw err;
-        if (!err) {
-            
-            let songInfo = data.tracks.items[0];
-            // console.log(songInfo);
-
-            console.log("\nSong Information:")
-            console.log("\nTitle: " + songInfo.name);
-            console.log("Artist: " + songInfo.artists[0].name)
-            console.log("Album: " + songInfo.album.name);
-
-            if (songInfo.preview_url !== null) {
-                console.log("Preview url: " + songInfo.preview_url);
-            } else if (songInfo.preview_url === null) {
-                console.log("preview not available");
-            }
-        }
-    })
-};
 
 
 function run(){
@@ -67,14 +44,37 @@ function run(){
     } else if (command === "spotify-this-song") {
         let song = searchItem;
 
-        if (song) {
-            displaySong(song);
-        } else {
-            displaySong("The Sign Ace of Base");
+        if (searchItem === undefined) {
+            song = "The Sign Ace of Base"
         }
+
+        spotify.search({type: "track", query: song, limit: 1 }, function(err, data){
+            if (err) throw err;
+            if (!err) {
+                
+                let songInfo = data.tracks.items[0];
+                // console.log(songInfo);
+    
+                console.log("\nSong Information:")
+                console.log("\nTitle: " + songInfo.name);
+                console.log("Artist: " + songInfo.artists[0].name)
+                console.log("Album: " + songInfo.album.name);
+    
+                if (songInfo.preview_url !== null) {
+                    console.log("Preview url: " + songInfo.preview_url);
+                } else if (songInfo.preview_url === null) {
+                    console.log("Preview not available");
+                }
+            }
+        })
 
     } else if (command === "movie-this") {
         let movie = searchItem;
+
+        if (searchItem === undefined) {
+            movie = "Mr. Nobody"
+        }
+
         let movieUrl = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy";
 
         request(movieUrl, function(error, response, body){
