@@ -1,8 +1,9 @@
 # Liri-node-app
 
-### Instructions/Features  
+### Instructions/Features 
+* Liri is a Language Interpretation and Recognition Interface that uses the command line to take in parameters and give back data
 * Concert-this
-    * from the command line, enter "concert-this" followed by an artist to show upcomming events for that artist
+    * from the command line, enter "concert-this" followed by an artist to show upcoming events for that artist
     * the venue, location, and date for each upcoming event will be listed
     * example output:
     ![Image1](assets/images/concert-this.png)
