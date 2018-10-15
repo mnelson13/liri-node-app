@@ -25,17 +25,28 @@ function run(){
                 // console.log(JSON.parse(body));
                 results = JSON.parse(body);
 
-                console.log("\nUpcoming Events for " + artist + ":");
+                let heading = "\nUpcoming Events for " + artist + ":";
+                console.log(heading);
+                
+                fs.appendFile("log.txt", "\n===============================\n" + heading, function(err){
+                    if(err) throw err;
+                });
 
                 results.forEach(
                     function(result) {
 
-                        console.log("\n" + result.venue.name);
-                        console.log(result.venue.city + " " + result.venue.region);
-                        
+                        let venue = ("\n" + result.venue.name);
+                        let location = (result.venue.city + " " + result.venue.region);
                         let date = moment(result.datetime);
                         formattedDate = date.format("MM/DD/YYYY");
+
+                        console.log(venue);
+                        console.log(location);
                         console.log(formattedDate);
+
+                        fs.appendFile("log.txt", "\n" + venue + "\n" + location + "\n" +formattedDate, function(err){
+                            if(err) throw err;
+                        })
                     }
                 )
             }
@@ -55,16 +66,35 @@ function run(){
                 let songInfo = data.tracks.items[0];
                 // console.log(songInfo);
     
-                console.log("\nSong Information:")
-                console.log("\nTitle: " + songInfo.name);
-                console.log("Artist: " + songInfo.artists[0].name)
-                console.log("Album: " + songInfo.album.name);
+                let heading = ("\nSong Information:")
+                let title = ("\nTitle: " + songInfo.name);
+                let artist = ("Artist: " + songInfo.artists[0].name)
+                let album = ("Album: " + songInfo.album.name);
+
+                console.log(heading);
+                console.log(title);
+                console.log(artist);
+                console.log(album);
+
+                fs.appendFile("log.txt", "\n===============================\n" + heading + title + "\n" + artist + "\n" + album + "\n", function(err){
+                    if (err) throw err;
+                });
     
                 if (songInfo.preview_url !== null) {
-                    console.log("Preview url: " + songInfo.preview_url);
+                    let preview = ("Preview url: " + songInfo.preview_url);
+                    console.log(preview);
+                    fs.appendFile("log.txt", preview, function(err){
+                        if(err) throw err;
+                    });
                 } else if (songInfo.preview_url === null) {
-                    console.log("Preview not available");
+                    let preview = ("Preview not available");
+                    console.log(preview);
+                    fs.appendFile("log.txt", preview, function(err){
+                        if(err) throw err;
+                    });
                 }
+
+                
             }
         })
 
@@ -80,15 +110,29 @@ function run(){
         request(movieUrl, function(error, response, body){
             if (error) throw error;
             if (!error && response.statusCode === 200) {
-                console.log("\nMovie Information:")
-                console.log("\nTile: " + JSON.parse(body).Title);
-                console.log("Released: " + JSON.parse(body).Released);
-                console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
-                console.log("Rotten Tomatoes Rating:  " + JSON.parse(body).Ratings[1].Value);
-                console.log("Country Produced: " + JSON.parse(body).Country);
-                console.log("Language: " + JSON.parse(body).Language);
-                console.log("Plot: " + JSON.parse(body).Plot);
-                console.log("Actors: " + JSON.parse(body).Actors);
+                let heading = ("\nMovie Information:")
+                let title = ("\nTile: " + JSON.parse(body).Title);
+                let released = ("Released: " + JSON.parse(body).Released);
+                let imdbRating = ("IMDB Rating: " + JSON.parse(body).imdbRating);
+                let tomatoesRating = ("Rotten Tomatoes Rating:  " + JSON.parse(body).Ratings[1].Value);
+                let country = ("Country Produced: " + JSON.parse(body).Country);
+                let language = ("Language: " + JSON.parse(body).Language);
+                let plot = ("Plot: " + JSON.parse(body).Plot);
+                let actors = ("Actors: " + JSON.parse(body).Actors);
+
+                console.log(heading);
+                console.log(title);
+                console.log(released);
+                console.log(imdbRating);
+                console.log(tomatoesRating);
+                console.log(country);
+                console.log(language);
+                console.log(plot);
+                console.log(actors);
+
+                fs.appendFile("log.txt", "\n===============================\n" + heading + title + "\n" + released + "\n" + imdbRating + "\n" + tomatoesRating + "\n" + country + "\n" + language + "\n" + plot + "\n" + actors, function(err){
+                    if(err) throw err;
+                });
             }
         })
 

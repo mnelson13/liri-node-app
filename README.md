@@ -30,6 +30,8 @@
     ![Image6](assets/images/do-what-it-says2.png)
 * If an invalid command is entered, you will be told to try again
     ![Image7](assets/images/error-message.png)
+* All of your command line results will be appended to the "log.txt" file for you to reference your searches later if needed
+    ![Image8](assets/images/appendFile.png)
 
 ### Languages/Technologies Used:
 * JavaScript, Node.js, API requests, Command Line, Moment.js, Request, dotenv
